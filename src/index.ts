@@ -29,7 +29,7 @@ createConnection().then(async connection => {
     // ...
 
     // start express server
-    app.listen(3000);
+    app.listen(3001);
 
     // insert new users for test
     await connection.manager.save(connection.manager.create(User, {
