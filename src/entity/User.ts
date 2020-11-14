@@ -12,7 +12,7 @@ export class User {
     @Column()
     surname: string;
 
-    @Column()
+    @Column({ default: 0 })
     score: number;
 
     @Column({ default: "" })

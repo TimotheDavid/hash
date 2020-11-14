@@ -31,29 +31,44 @@ export class AuthController {
             .where("name = :name", { name: name })
             .andWhere("surname = :surname", { surname: surname })
             .getOne()
+        console.log(user); 
 
-        const info = {
-            name: user.name,
-            surname: user.surname
+        if (user !== undefined) {
+            
+            var token = await jwt.sign({ name: user.name, surname: user.surname }, "heeee");
+
+            await this.user.createQueryBuilder("user")
+                .insert()
+                .into(User)
+                .values([{
+                    name: user.name,
+                    surname: user.surname,
+                    access_token: token
+                }]).execute();
+
+        } else {
+            var token = await jwt.sign({ name: name, surname: surname }, "heeee");
+            await this.user.createQueryBuilder("user")
+                .insert()
+                .into(User)
+                .values([
+                    {
+                        name: name,
+                        surname: surname,
+                        score: 0,
+                        access_token: token
+                    }
+                ]).execute();
         }
 
-        var token = await jwt.sign(info, "heeee");
-
-
-        await this.user.createQueryBuilder("user")
-            .insert()
-            .into(User)
-            .values([{
-                name: user.name,
-                surname: user.surname,
-                access_token: token
-            }]).execute();
 
 
 
 
 
-        res.send(token); 
+
+
+        res.send('ok'); 
 
     }
 
