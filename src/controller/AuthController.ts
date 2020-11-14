@@ -13,12 +13,17 @@ export class AuthController {
     private user = getRepository(User);
 
     async get_token(req: Request, res: Response) {
-
+        
         const token = await req.query.token;
         const data = await this.user.createQueryBuilder("user")
             .where("user.access_token = :token", { token: token })
             .getOne();
-        res.send(data);
+        if (data === undefined) {
+            res.status(403).send('Forbidden');
+        } else {
+            res.send(data);
+        }
+
     }
 
     async create_token(req: Request, res: Response) {
@@ -30,23 +35,23 @@ export class AuthController {
         const user = await this.user.createQueryBuilder("user")
             .where("name = :name", { name: name })
             .andWhere("surname = :surname", { surname: surname })
-            .getOne()
-        console.log(user); 
-
-        if (user !== undefined) {
-            
+            .getOne();
+        try {
             var token = await jwt.sign({ name: user.name, surname: user.surname }, "heeee");
 
             await this.user.createQueryBuilder("user")
                 .insert()
-                .into(User)
-                .values([{
+                .update(User)
+                .set({
                     name: user.name,
                     surname: user.surname,
+                    score: user.score, 
                     access_token: token
-                }]).execute();
+                })
+                .where("id = :id", { id: user.id })
+                .execute();
 
-        } else {
+        } catch {
             var token = await jwt.sign({ name: name, surname: surname }, "heeee");
             await this.user.createQueryBuilder("user")
                 .insert()
