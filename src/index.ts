@@ -11,6 +11,8 @@ createConnection().then(async connection => {
     // create express app
     const app = express();
     app.use(bodyParser.json());
+    var pg = require('pg');
+    pg.defaults.ssl = true;
 
     // register express routes from defined application routes
     Routes.forEach(route => {
