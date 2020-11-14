@@ -1,21 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
-import { Role } from "./Role";
+import { User } from "./User";
 @Entity()
-export class User {
+export class Level {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    name: string;
+    label: string;
 
-    @Column()
-    surname: string;
-
-    @Column()
-    score: number;
-
-
-
+    @ManyToMany(() => User)
+    @JoinTable()
+    users: User[];
 
 }

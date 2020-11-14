@@ -1,24 +1,25 @@
-{
-    "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "tim",
-    "password": "timdav",
-    "database": "hashdb",
-    "synchronize": true,
-    "logging": false,
-    "entities": [
-        "src/entity/**/*.ts"
-    ],
-    "migrations": [
-        "src/migration/**/*.ts"
-    ],
-    "subscribers": [
-        "src/subscriber/**/*.ts"
-    ],
-    "cli": {
-        "entitiesDir": "src/entity",
-        "migrationsDir": "src/migration",
-        "subscribersDir": "src/subscriber"
-    }
-}
+ {
+     "type": "postgres",
+     "host": "db-postgresql-ams3-09914-do-user-8301887-0.b.db.ondigitalocean.com",
+     "port": 25060,
+     "ssl": true,
+     "username": "doadmin",
+     "password": "dpu3yecl3c21r384",
+     "database": "defaultdb",
+     "synchronize": true,
+     "logging": false,
+     "entities": [
+         "src/entity/**/*.ts"
+     ],
+     "migrations": [
+         "src/migration/**/*.ts"
+     ],
+     "subscribers": [
+         "src/subscriber/**/*.ts"
+     ],
+     "cli": {
+         "entitiesDir": "src/entity",
+         "migrationsDir": "src/migration",
+         "subscribersDir": "src/subscriber"
+     }
+ }
