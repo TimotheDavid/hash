@@ -12,7 +12,7 @@ export class AuthController {
 
     private user = getRepository(User);
 
-    async get_token(req: Request, res: Response) {
+    async authentificate(req: Request, res: Response) {
         
         const token = await req.query.token;
         const data = await this.user.createQueryBuilder("user")
@@ -44,11 +44,10 @@ export class AuthController {
                         access_token: token
                     }
                 ]).execute();
-        }
-
+        
 
     }
-
+    
 }
 
 
