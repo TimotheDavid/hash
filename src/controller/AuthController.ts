@@ -47,14 +47,6 @@ export class AuthController {
         }
 
 
-
-
-
-
-
-
-        res.send('ok'); 
-
     }
 
 }
