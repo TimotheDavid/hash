@@ -15,6 +15,9 @@ export class User {
     @Column()
     score: number;
 
+    @Column({ default: "" })
+    access_token: string; 
+
 
 
 
