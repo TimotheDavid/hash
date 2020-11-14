@@ -1,3 +1,4 @@
+import { AuthController } from "./controller/AuthController";
 import {UserController} from "./controller/UserController";  
 
 export const Routes = [{
@@ -20,5 +21,11 @@ export const Routes = [{
     route: "/users/:id",
     controller: UserController,
     action: "remove"
+    }, {
+        method: "post",
+        route: "/auth/get",
+        controller: AuthController,
+        action: "get_token"
+
     }
 ];
