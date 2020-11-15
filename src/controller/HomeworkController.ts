@@ -30,11 +30,29 @@ export class HomeworkController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.HomeworkRepository.findOne(request.params.id);
+        const homework = request.params
+        let data = await this.HomeworkRepository.find({ id: homework.id });
+        if (data.length === 0) {
+            response.status(404)
+        } else {
+            let exercices = await this.HomeworkRepository
+                .createQueryBuilder("homework")
+                .select(["homework.id", "homework.name", "homework.start_date", "homework.end_date", "exercice.id", "exercice.name", "user.id"])
+                .leftJoin("homework.exercices", "exercice")
+                .leftJoin("homework.users", "user")
+                .where("homework.id = :id", { id: data[0].id })
+                .getMany();
+
+            response.send(exercices)
+        }
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        return this.HomeworkRepository.save(request.body);
+        const homework = request.body
+
+        response.send(homework);
+
+
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
