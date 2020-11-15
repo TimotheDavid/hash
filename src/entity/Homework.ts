@@ -18,7 +18,7 @@ export class Homework {
     @Column({ type: "date" })
     show_date: Date
 
-    @ManyToMany(() => Exercice)
+    @ManyToMany(type => Exercice, exercice => exercice.homeworks)
     @JoinTable()
     exercices: Exercice[];
 

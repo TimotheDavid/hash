@@ -1,6 +1,7 @@
 import { AuthController } from "./controller/AuthController";
 import {UserController} from "./controller/UserController";  
 import { AdminController } from "./controller/AdminController";
+import { HomeworkController } from "./controller/HomeworkController";
 
 export const Routes = [{
     method: "get",
@@ -37,7 +38,11 @@ export const Routes = [{
         route: "/admin/fill",
         controller: AdminController,
         action: "fill"
-
+    }, {
+        method: "get",
+        route: "/homeworks",
+        controller: HomeworkController,
+        action: "all"
 
 
     }
