@@ -1,13 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { getRepository } from 'typeorm';
-import { Exercice } from '../entity/Exercice';
 import { Homework } from "../entity/Homework"
 
 
 export class HomeworkController {
 
     private HomeworkRepository = getRepository(Homework);
-    private ExerciceRepository = getRepository(Exercice);
 
     async all(req: Request, res: Response, next: NextFunction) {
         let data = await this.HomeworkRepository.find();
@@ -68,11 +66,8 @@ export class HomeworkController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        // let HomeworkToRemove = await this.HomeworkRepository.findOne(request.params.id);
-        // await this.HomeworkRepository.remove(HomeworkToRemove);
 
         const data = request.params;
-        console.log(data)
         try {
             await this.HomeworkRepository.delete(data.id);
             response.sendStatus(200);
@@ -81,13 +76,6 @@ export class HomeworkController {
                 "error": "cannot be delete"
             })
         }
-
-
-
     }
-
-
-
-
 }
 
