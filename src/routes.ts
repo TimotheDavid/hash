@@ -2,6 +2,7 @@ import { AuthController } from "./controller/AuthController";
 import {UserController} from "./controller/UserController";  
 import { AdminController } from "./controller/AdminController";
 import { HomeworkController } from "./controller/HomeworkController";
+import { ExerciceController } from "./controller/ExercicesController";
 
 export const Routes = [{
     method: "get",
@@ -58,6 +59,18 @@ export const Routes = [{
         route: "/homeworks/:id",
         controller: HomeworkController,
         action: "remove"
+    }, {
+        method: "get",
+        route: "/exercices",
+        controller: ExerciceController,
+        action: "all"
+    }, {
+        method: "get",
+        route: "/exercices/:id",
+        controller: ExerciceController,
+        action: "one"
+
+
 
     }
 ];
