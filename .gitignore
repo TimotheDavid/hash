@@ -6,3 +6,4 @@ tmp/
 temp/
 private.key
 private.key.pub
+.env
