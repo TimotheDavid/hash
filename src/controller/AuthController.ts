@@ -20,8 +20,6 @@ export class AuthController {
 
         const token = await req.body.token;
 
-        console.log(req.query)
-
         const data = await this.user.find({access_token: token})
         
         if (data.length === 0) {
