@@ -43,7 +43,15 @@ export const Routes = [{
         route: "/homeworks",
         controller: HomeworkController,
         action: "all"
-
-
+    }, {
+        method: "get",
+        route: "/homeworks/:id",
+        controller: HomeworkController,
+        action: "one"
+    }, {
+        method: "post",
+        route: "/homeworks",
+        controller: HomeworkController,
+        action: "save"
     }
 ];
