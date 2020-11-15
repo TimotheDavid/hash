@@ -24,9 +24,9 @@ export const Routes = [{
     action: "remove"
     }, {
         method: "post",
-        route: "/auth/post",
+        route: "/auth/authenticate",
         controller: AuthController,
-        action: "authentificate"
+        action: "authenticate"
     }, {
         method: "get",
         route: "/auth/get",

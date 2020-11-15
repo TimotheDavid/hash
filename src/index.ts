@@ -2,9 +2,11 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as dotenv from 'dotenv';
 import {Request, Response} from "express";
+
+
 import {Routes} from "./routes";
-import {User} from "./entity/User";
 
 createConnection().then(async connection => {
 
@@ -28,7 +30,7 @@ createConnection().then(async connection => {
     });
 
     // setup express app here
-    // ...
+    dotenv.config();
 
     // start express server
     app.listen(3000);
