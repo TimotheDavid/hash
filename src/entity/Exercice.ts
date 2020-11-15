@@ -10,9 +10,6 @@ export class Exercice {
     @Column()
     name: string;
 
-    @Column()
-    exercice_id: number;
-
     @ManyToMany(type => Homework, homework => homework.exercices)
     homeworks: Homework[]
 }

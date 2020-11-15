@@ -9,19 +9,19 @@ export class HomeworkController {
     private HomeworkRepository = getRepository(Homework);
     private ExerciceRepository = getRepository(Exercice);
 
-    async all(request: Request, response: Response, next: NextFunction) {
+    async all(req: Request, res: Response, next: NextFunction) {
         let data = await this.HomeworkRepository.find();
         if (data.length === 0) {
-            response.status(404)
+            res.status(404)
         } else {
-            let exercices = await this.ExerciceRepository
-                .createQueryBuilder("exercices")
-                .leftJoinAndSelect("exercices.id", "id")
-                .where("homework.id = :id", { id: data[0].id })
+
+            let exercices = await this.HomeworkRepository
+                .createQueryBuilder("homework")
+                .leftJoinAndSelect("homework.exercices", "exercice")
+                .leftJoinAndSelect("homework.users", "users")
                 .getMany();
 
-            console.log(exercices);
-
+            res.send(exercices)
 
         }
 
