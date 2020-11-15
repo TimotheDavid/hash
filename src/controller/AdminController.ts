@@ -1,12 +1,17 @@
 import { getRepository } from "typeorm";
-import { Request, Response } from "express";
-import { User } from '../entity/User';
 import * as jwt from "jsonwebtoken";
+import { Request, Response } from "express";
+
+import { User } from '../entity/User';
+
+//////////////////////////////////////////////////////////
 
 export class AdminController {
 
 
     private UserRepository = getRepository(User);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     async fill(req: Request, res: Response) {
 
@@ -57,5 +62,8 @@ export class AdminController {
         
 
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
 

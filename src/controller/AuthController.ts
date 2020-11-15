@@ -1,15 +1,16 @@
 
-require('dotenv').config()
 import { Request, Response } from "express";
 import * as jwt from 'jsonwebtoken';
 import { User } from "../entity/User";
 import { getRepository } from "typeorm";
-const fs = require('fs'); 
 
-const JWT_TOKEN = fs.readFileSync("private.key"); 
+//////////////////////////////////////////////////////////
+
 export class AuthController {
 
     private user = getRepository(User);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     async authenticate(req: Request, res: Response) {
         
@@ -18,6 +19,7 @@ export class AuthController {
         // and is sent to user by mail (in the future)
 
         const token = await req.query.token;
+
         const data = await this.user.find({access_token: token})
         
         if (data.length === 0) {
@@ -27,20 +29,47 @@ export class AuthController {
             });
 
         } else {
-            var access_token = await jwt.sign({ id: data[0].id }, process.env.TOKEN_SECRET, { expiresIn: '72h' });
 
-            await this.user.update(data[0].id, {
-    
-                access_token: access_token
+            // Verifying token
+            jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
+
+                if (err) return res.sendStatus(403)
+
+                req.user = user
 
             })
-            res.send({
-                "status": "success",
-                "access_token": access_token
-            });
+
+            // Setting up new token for session
+            var access_token = await jwt.sign({ id: data[0].id }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+
+            try {
+
+                // Update token in db
+                await this.user.update(data[0].id, {
+    
+                    access_token: access_token
+    
+                })
+
+                // Send response with Authorization
+                res.send({
+                    "status": "success",
+                    "access_token": "Bearer " + access_token
+                })
+
+            } catch {
+
+                res.status(403).send({
+                    "status": "Forbidden"
+                })
+
+            }
+            
         }
 
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     async create_token(req: Request, res: Response) {
         const name = req.query.name;
@@ -63,6 +92,8 @@ export class AuthController {
         
 
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
 }
 
