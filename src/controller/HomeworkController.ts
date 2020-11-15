@@ -48,16 +48,42 @@ export class HomeworkController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const homework = request.body
+        const data = request.body;
 
-        response.send(homework);
+        const infos = {
+            name: data.name,
+            start_date: data.start_date,
+            end_date: data.end_date,
+            show_date: data.show_date,
+        }
 
-
+        try {
+            await this.HomeworkRepository.save(infos);
+            response.sendStatus(200);
+        } catch (error) {
+            response.sendStatus(500).send({
+                "error": "cannot be save"
+            })
+        }
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let HomeworkToRemove = await this.HomeworkRepository.findOne(request.params.id);
-        await this.HomeworkRepository.remove(HomeworkToRemove);
+        // let HomeworkToRemove = await this.HomeworkRepository.findOne(request.params.id);
+        // await this.HomeworkRepository.remove(HomeworkToRemove);
+
+        const data = request.params;
+        console.log(data)
+        try {
+            await this.HomeworkRepository.delete(data.id);
+            response.sendStatus(200);
+        } catch (error) {
+            response.send(500).send({
+                "error": "cannot be delete"
+            })
+        }
+
+
+
     }
 
 

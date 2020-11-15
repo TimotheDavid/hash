@@ -53,5 +53,11 @@ export const Routes = [{
         route: "/homeworks",
         controller: HomeworkController,
         action: "save"
+    }, {
+        method: "delete",
+        route: "/homeworks/:id",
+        controller: HomeworkController,
+        action: "remove"
+
     }
 ];
