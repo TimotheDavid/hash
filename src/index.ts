@@ -5,7 +5,7 @@ import * as bodyParser from "body-parser";
 import * as dotenv from 'dotenv';
 import {Request, Response} from "express";
 import * as morgan from "morgan"; 
-
+const auth = require("./lib/AuthentificateMidlewareJWT");
 import {Routes} from "./routes";
 
 createConnection().then(async connection => {
@@ -14,10 +14,12 @@ createConnection().then(async connection => {
 
     // create express app
     const app = express();
+    app.use(auth); 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
         extended: true
     }))
+
     app.use(cors());
     app.use(morgan('combined'))
     var pg = require('pg');

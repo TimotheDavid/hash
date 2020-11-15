@@ -7,3 +7,5 @@ temp/
 private.key
 private.key.pub
 .env
+config.json
+ormconfig.json

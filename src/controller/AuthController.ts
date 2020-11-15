@@ -20,8 +20,7 @@ export class AuthController {
 
         const token = await req.body.token;
 
-        const data = await this.user.find({access_token: token})
-        
+        const data = await this.user.find({ access_token: token })
         if (data.length === 0) {
 
 
