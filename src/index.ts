@@ -10,11 +10,21 @@ import {Routes} from "./routes";
 
 createConnection().then(async connection => {
 
+    const cors = require('cors');
+
     // create express app
     const app = express();
     app.use(bodyParser.json());
+    app.use(cors());
     var pg = require('pg');
     pg.defaults.ssl = true;
+    
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+        next();
+    })
 
     // register express routes from defined application routes
     Routes.forEach(route => {

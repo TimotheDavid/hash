@@ -18,7 +18,9 @@ export class AuthController {
         // A new token is generated after each login for security purposes
         // and is sent to user by mail (in the future)
 
-        const token = await req.query.token;
+        const token = await req.body.token;
+
+        console.log(req.query)
 
         const data = await this.user.find({access_token: token})
         
