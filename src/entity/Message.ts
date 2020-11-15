@@ -12,11 +12,6 @@ export class Message {
     @Column()
     message_subject: string;
 
-    @ManyToMany(() => User)
-    @JoinTable()
-    teacher: User[];
-
-    @ManyToMany(() => User)
-    @JoinTable()
-    student: User[];
+    @ManyToMany(type => User, user => user.messages)
+    users: User[];
 }

@@ -1,12 +1,12 @@
  {
      "type": "postgres",
-     "host": "db-postgresql-ams3-09914-do-user-8301887-0.b.db.ondigitalocean.com",
+     "host": "new-db-nov-15-backup-do-user-8301887-0.b.db.ondigitalocean.com",
      "port": 25060,
      "extra": {
          "ssl": true
      },
      "username": "doadmin",
-     "password": "dpu3yecl3c21r384",
+     "password": "d5d9xwrn76cqa99d",
      "database": "defaultdb",
      "synchronize": true,
      "logging": false,

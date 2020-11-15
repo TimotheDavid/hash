@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
 import { Homework } from "./Homework";
+import { Message } from "./Message";
 import { Role } from "./Role";
 @Entity()
 export class User {
@@ -19,11 +20,15 @@ export class User {
     @Column({default: ""})
     access_token: string;
 
-    @ManyToMany(type => Homework, homework => homework.users)
+    @ManyToMany(() => Homework, homework => homework.users)
     homeworks: Homework[]
 
-    @ManyToMany(type => Role, role => role.users)
+    @ManyToMany(() => Role, role => role.users)
     @JoinTable()
     roles: Role[]
+
+    @ManyToMany(() => Message, message => message.users)
+    @JoinTable()
+    messages: Message[];
 
 }
