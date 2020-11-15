@@ -24,6 +24,7 @@ export class AuthController {
         
         if (data.length === 0) {
 
+
             res.status(403).send({
                 "status": "Forbidden"
             });
@@ -32,6 +33,8 @@ export class AuthController {
 
             // Verifying token
             jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
+
+                
 
                 if (err) return res.sendStatus(403)
 
@@ -51,13 +54,26 @@ export class AuthController {
     
                 })
 
+                // Get user role
+
+                var result = this.user.createQueryBuilder('user')
+                .innerJoin(
+                    'user.role',
+                    'role',
+                    'role.id = :roleId',
+                )
+                .getMany()
+
+                console.log(result)
                 // Send response with Authorization
                 res.send({
                     "status": "success",
-                    "access_token": "Bearer " + access_token
+                    "user": (await this.user.findOne({id: data[0].id}))
                 })
 
-            } catch {
+            } catch (error) {
+                
+                console.log(error)
 
                 res.status(403).send({
                     "status": "Forbidden"
