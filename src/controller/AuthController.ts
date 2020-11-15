@@ -56,19 +56,16 @@ export class AuthController {
 
                 // Get user role
 
-                var result = this.user.createQueryBuilder('user')
-                .innerJoin(
-                    'user.role',
-                    'role',
-                    'role.id = :roleId',
-                )
-                .getMany()
+                const userWithRole = await this.user
+                .createQueryBuilder("user")
+                .leftJoinAndSelect("user.roles", "role")
+                .where("user.id = :id", {id: data[0].id})
+                .getOne();
 
-                console.log(result)
                 // Send response with Authorization
                 res.send({
                     "status": "success",
-                    "user": (await this.user.findOne({id: data[0].id}))
+                    "user": userWithRole
                 })
 
             } catch (error) {
@@ -90,9 +87,6 @@ export class AuthController {
     async create_token(req: Request, res: Response) {
         const name = req.query.name;
         const surname = req.query.surname;
-        console.log(name);
-        console.log(surname);
-
             var token = await jwt.sign({ name: name, surname: surname }, process.env.SECRET_TOKEN);
             await this.user.createQueryBuilder("user")
                 .insert()
