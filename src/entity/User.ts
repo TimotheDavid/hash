@@ -18,7 +18,4 @@ export class User {
     @Column({ default: "" })
     access_token: string; 
 
-
-
-
 }
