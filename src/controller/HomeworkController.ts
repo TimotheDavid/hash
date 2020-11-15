@@ -17,8 +17,9 @@ export class HomeworkController {
 
             let exercices = await this.HomeworkRepository
                 .createQueryBuilder("homework")
-                .leftJoinAndSelect("homework.exercices", "exercice")
-                .leftJoinAndSelect("homework.users", "users")
+                .select(["homework.id", "homework.name", "homework.start_date", "homework.end_date", "exercice.id", "exercice.name", "user.id"])
+                .leftJoin("homework.exercices", "exercice")
+                .leftJoin("homework.users", "user")
                 .getMany();
 
             res.send(exercices)
