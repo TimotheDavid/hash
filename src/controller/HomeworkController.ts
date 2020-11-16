@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { getRepository } from 'typeorm';
 import { Homework } from "../entity/Homework"
+import * as jwt from "jsonwebtoken";
 
 
 export class HomeworkController {
@@ -8,6 +9,7 @@ export class HomeworkController {
     private HomeworkRepository = getRepository(Homework);
 
     async all(req: Request, res: Response, next: NextFunction) {
+        const token = <string>req.headers.authorization.split(' ')[1];
         let data = await this.HomeworkRepository.find();
         if (data.length === 0) {
             res.status(404)
@@ -19,8 +21,27 @@ export class HomeworkController {
                 .leftJoin("homework.exercices", "exercice")
                 .leftJoin("homework.users", "user")
                 .getMany();
+            let data;
+            data = jwt.verify(token, process.env.TOKEN_SECRET);
 
-            res.send(exercices)
+
+            let id = exercices[0].users.map(el => {
+                if (el.id == data.id) {
+                    return true
+                }
+            });
+
+    
+
+            if (id[0]) {
+                res.send(exercices);
+            } else {
+                res.sendStatus(403);
+            }
+
+
+
+
 
         }
 
