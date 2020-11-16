@@ -31,27 +31,24 @@ export class HomeworkController {
                 }
             });
 
-    
 
             if (id[0]) {
                 res.send(exercices);
+
+
             } else {
-                res.sendStatus(403);
+                res.status(403);
             }
-
-
-
-
-
         }
 
 
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
+        const token = <string>request.headers.authorization.split(' ')[1];
         const homework = request.params
-        let data = await this.HomeworkRepository.find({ id: homework.id });
-        if (data.length === 0) {
+        let datas = await this.HomeworkRepository.find({ id: homework.id });
+        if (datas.length === 0) {
             response.status(404)
         } else {
             let exercices = await this.HomeworkRepository
@@ -59,9 +56,26 @@ export class HomeworkController {
                 .select(["homework.id", "homework.name", "homework.start_date", "homework.end_date", "exercice.id", "exercice.name", "user.id"])
                 .leftJoin("homework.exercices", "exercice")
                 .leftJoin("homework.users", "user")
-                .where("homework.id = :id", { id: data[0].id })
+                .where("homework.id = :id", { id: datas[0].id })
                 .getMany();
 
+            let data;
+            data = jwt.verify(token, process.env.TOKEN_SECRET);
+
+            let id = exercices[0].users.map(el => {
+                if (el.id == data.id) {
+                    return true
+                }
+
+                if (id[0]) {
+                    response.send(exercices);
+
+
+                } else {
+                    response.status(403);
+                }
+
+            });
             response.send(exercices)
         }
     }
