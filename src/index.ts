@@ -14,7 +14,7 @@ createConnection().then(async connection => {
 
     // create express app
     const app = express();
-     app.use(auth); 
+    app.use(auth);
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
         extended: true

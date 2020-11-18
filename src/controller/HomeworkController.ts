@@ -2,11 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import { getRepository } from 'typeorm';
 import { Homework } from "../entity/Homework"
 import * as jwt from "jsonwebtoken";
+import { User } from '../entity/User';
 
 
 export class HomeworkController {
 
     private HomeworkRepository = getRepository(Homework);
+    private UserRepository = getRepository(User);
 
     async all(req: Request, res: Response, next: NextFunction) {
         const token = <string>req.headers.authorization.split(' ')[1];
@@ -51,6 +53,7 @@ export class HomeworkController {
         if (datas.length === 0) {
             response.status(404)
         } else {
+
             let exercices = await this.HomeworkRepository
                 .createQueryBuilder("homework")
                 .select(["homework.id", "homework.name", "homework.start_date", "homework.end_date", "exercice.id", "exercice.name", "user.id"])
@@ -81,7 +84,21 @@ export class HomeworkController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
+        //get the token from the user
+        const token = <string>request.headers.authorization.split(' ')[1];
         const data = request.body;
+        let tokens;
+        //decrypt the token 
+        tokens = jwt.verify(token, process.env.TOKEN_SECRET);
+        //find the user with the id of the token;
+
+
+
+
+
+
+
+
 
         const infos = {
             name: data.name,

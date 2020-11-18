@@ -20,6 +20,9 @@ export class User {
     @Column({default: ""})
     access_token: string;
 
+    @Column({default: ""})
+    password: string
+
     @ManyToMany(() => Homework, homework => homework.users)
     homeworks: Homework[]
 

@@ -1,27 +1,24 @@
- {
-     "type": "postgres",
-     "host": "new-db-nov-15-backup-do-user-8301887-0.b.db.ondigitalocean.com",
-     "port": 25060,
-     "extra": {
-         "ssl": true
-     },
-     "username": "doadmin",
-     "password": "d5d9xwrn76cqa99d",
-     "database": "defaultdb",
-     "synchronize": true,
-     "logging": false,
-     "entities": [
-         "src/entity/**/*.ts"
-     ],
-     "migrations": [
-         "src/migration/**/*.ts"
-     ],
-     "subscribers": [
-         "src/subscriber/**/*.ts"
-     ],
-     "cli": {
-         "entitiesDir": "src/entity",
-         "migrationsDir": "src/migration",
-         "subscribersDir": "src/subscriber"
-     }
- }
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "tim",
+    "password": "timdav",
+    "database": "hashdb",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+        "src/entity/**/*.ts"
+    ],
+    "migrations": [
+        "src/migration/**/*.ts"
+    ],
+    "subscribers": [
+        "src/subscriber/**/*.ts"
+    ],
+    "cli": {
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migration",
+        "subscribersDir": "src/subscriber"
+    }
+}

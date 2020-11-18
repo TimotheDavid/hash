@@ -1,7 +1,8 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {User} from "../entity/User";
-import * as jwt from "jsonwebtoken"; 
+import * as jwt from "jsonwebtoken";
+import * as bcrypt from "bcrypt";
 export class UserController {
 
     private userRepository = getRepository(User);
@@ -31,16 +32,16 @@ export class UserController {
         const data = request.body;
 
         const token = await jwt.sign({ name: data.name, surname: data.surname }, process.env.TOKEN_SECRET)
-
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(data.password,salt)
 
         const user = await {
             name: data.name,
             surname: data.surname,
             access_token: token,
-            score: 0
-
-        }
-
+            score: 0,
+            password: hash
+        };
     await this.userRepository.save(user);
     response.sendStatus(200);
 
