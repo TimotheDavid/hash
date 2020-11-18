@@ -23,6 +23,13 @@ export class User {
     @Column({default: ""})
     password: string
 
+    @Column({default: "", unique:true})
+    email: string
+
+    @Column({default : false})
+    active: boolean
+
+
     @ManyToMany(() => Homework, homework => homework.users)
     homeworks: Homework[]
 
