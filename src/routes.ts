@@ -61,12 +61,12 @@ export const Routes = [{
         action: "remove"
     }, {
         method: "get",
-        route: "/exercices",
+        route: "/exercises",
         controller: ExerciceController,
         action: "all"
     }, {
         method: "get",
-        route: "/exercices/:id",
+        route: "/exercises/:id",
         controller: ExerciceController,
         action: "one"
 

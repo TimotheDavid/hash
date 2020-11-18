@@ -2,13 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { getRepository } from "typeorm";
 import { Exercice } from "../entity/Exercice";
 
-
+//TODO: finish to implement exercise
 export class ExerciceController {
 
     private ExerciceRepository = getRepository(Exercice);
 
     async all(request: Request, response: Response, next: NextFunction) {
-
         let data = await this.ExerciceRepository.find();
         if (data.length === 0) {
             response.status(404)
@@ -18,7 +17,7 @@ export class ExerciceController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        const exercice = request.params;
+        const exercice:any = request.params;
         console.log(exercice);
 
         let data = await this.ExerciceRepository.find({ id: exercice.id });
