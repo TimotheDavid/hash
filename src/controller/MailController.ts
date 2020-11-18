@@ -3,34 +3,35 @@ import * as mail from "nodemailer";
 
 
 export class MailController{
-
-    async send(request : Request, response:Response){
-
-
+    static send(email: any, token: string): any {
 
         let transport  = mail.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
-            auth: {
-                user: 'simeon62@ethereal.email',
-                pass: '6dkxqWvDSF9dgCTPap'
-            }
+            host: "localhost",
+            port: 1025,
+            ignoreTLS:true,
+
         })
         const message = {
-            from:"simeon62@ethereal.email",
-            to:"simeon62@ethereal.email",
+            from:"timoth.david@lest",
+            to:"password@hatch.eu",
             subject: "test",
-            text:"test"
+            text: `${token}`
         };
 
         transport.sendMail(message ,(err , info) => {
             if(err) console.log(err)
             console.log(info);
-            response.sendStatus(200);
+
         })
 
-
     }
+
+
+
+
+
+
+
 
 
 

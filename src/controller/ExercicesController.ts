@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { getRepository } from "typeorm";
 import { Exercice } from "../entity/Exercice";
-
+import * as jwt from "jsonwebtoken";
 //TODO: finish to implement exercise
 export class ExerciceController {
 
@@ -9,6 +9,8 @@ export class ExerciceController {
 
     async all(request: Request, response: Response, next: NextFunction) {
         let data = await this.ExerciceRepository.find();
+
+
         if (data.length === 0) {
             response.status(404)
         } else {

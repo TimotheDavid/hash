@@ -35,7 +35,12 @@ export const Routes = [{
         route: "/auth/get",
         controller: AuthController,
         action: "create_token"
-    }, {
+    },{
+        method:"get",
+        route :"/auth/verify/:token",
+        controller: AuthController,
+        action: "verify",
+    },{
         method: "post",
         route: "/admin/fill",
         controller: AdminController,

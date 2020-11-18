@@ -3,6 +3,7 @@ import {NextFunction, Request, Response} from "express";
 import {User} from "../entity/User";
 import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
+import * as mail from "./MailController";
 export class UserController {
 
     private userRepository = getRepository(User);
@@ -46,30 +47,44 @@ export class UserController {
 
         response.send(user);
     }
-    // create the user with this routes
+
+
     async save(request: Request, response: Response, next: NextFunction) {
+        const token = <string>request.headers.authorization.split(' ')[1];
+
+
+
         const data = request.body;
 
-        const token = await jwt.sign({ name: data.name, surname: data.surname }, process.env.TOKEN_SECRET)
+
+
+        const tokens = await jwt.sign({ name: data.name, surname: data.surname, email:data.email }, process.env.TOKEN_SECRET)
         const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(data.password,salt)
+        const hash = await new Promise<string>((resolve, reject) => {
+            bcrypt.hash(data.password, 10, (err, res) => {
+                if(err) reject(err);
+                resolve(res);
+            })
+
+        })
 
         const user = await {
             name: data.name,
             surname: data.surname,
             access_token: token,
             score: 0,
-            password: hash
+            password: hash,
+            email: data.email
+
         };
     await this.userRepository.save(user);
-    response.sendStatus(200);
+    response.send(mail.MailController.send(data.email,token));
 
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
         // let userToRemove = await this.userRepository.findOne(request.params.id);
-        // await this.userRepository.remove(userToRemove);
-
+        // await this.userRepository.remove(userToRemove)
         let data = request.params;
         try {
             this.userRepository.delete({ id: data.id })
@@ -80,8 +95,6 @@ export class UserController {
                 "error": "cannot remove user"
             })
         }
-
-
     }
 
 }
