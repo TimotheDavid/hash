@@ -8,16 +8,35 @@ export class UserController {
     private userRepository = getRepository(User);
 
     async all(request: Request, response: Response, next: NextFunction) {
+       const token = <string>request.headers.authorization.split(' ')[1];
+
         let data = await this.userRepository.find();
+        let tokens;
+         tokens = jwt.verify(token,process.env["TOKEN_SECRET"]);
 
-        if (data.length === 0) {
-            response.status(404).send({
-                "error": "not found"
-            })
-        } else {
-            response.send(data);
+         let user = await this.userRepository.createQueryBuilder("user")
+             .select(["user.id"])
+             .where("user.name = :name",{name : tokens.name})
+             .andWhere("user.surname = :surname", {surname: tokens.surname})
+             .getOne();
+
+         let user_verify = data.filter((el) => {
+             if(el.id == user.id){
+                 return true;
+             }
+         })
+
+        if(user_verify){
+            if (data.length === 0) {
+                response.status(404).send({
+                    "error": "not found"
+                })
+            } else {
+                response.send(data);
+            }
+        }else{
+            response.sendStatus(403);
         }
-
     }
 
     async one(request: Request, response: Response, next: NextFunction) {

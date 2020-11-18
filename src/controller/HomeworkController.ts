@@ -10,11 +10,11 @@ export class HomeworkController {
     private HomeworkRepository = getRepository(Homework);
     private UserRepository = getRepository(User);
 
-    async all(req: Request, res: Response, next: NextFunction) {
-        const token = <string>req.headers.authorization.split(' ')[1];
+    async all(request: Request, response: Response, next: NextFunction) {
+        const token = <string>request.headers.authorization.split(' ')[1];
         let data = await this.HomeworkRepository.find();
         if (data.length === 0) {
-            res.status(404)
+            response.status(404)
         } else {
 
             let exercices = await this.HomeworkRepository
@@ -35,11 +35,11 @@ export class HomeworkController {
 
 
             if (id[0]) {
-                res.send(exercices);
+                response.send(exercices);
 
 
             } else {
-                res.status(403);
+                response.status(403);
             }
         }
 
