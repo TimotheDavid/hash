@@ -3,6 +3,7 @@ import {UserController} from "./controller/UserController";
 import { AdminController } from "./controller/AdminController";
 import { HomeworkController } from "./controller/HomeworkController";
 import { ExerciceController } from "./controller/ExercicesController";
+import {MailController} from "./controller/MailController";
 
 export const Routes = [{
     method: "get",
@@ -69,8 +70,10 @@ export const Routes = [{
         route: "/exercises/:id",
         controller: ExerciceController,
         action: "one"
-
-
-
-    }
+    },{
+    method: "post",
+    route: "/mail",
+    controller: MailController,
+    action: "send"
+}
 ];
